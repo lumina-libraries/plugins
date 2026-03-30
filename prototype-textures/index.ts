@@ -8,7 +8,7 @@ declare const api: IPluginAPI;
 
 const loader = new TextureLoader();
 
-const BASE_URL = `https://github.com/lumina-libraries/plugins/raw/refs/heads/main/prototype-textures`;
+const BASE_URL = `https://cdn.jsdelivr.net/gh/lumina-libraries/plugins/prototype-textures`;
 
 const FOLDER_ID = 'prefab-materials';
 
