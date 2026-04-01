@@ -65,7 +65,7 @@ class ImportCustomStoreObjectAction extends CustomStoreObject {
 
           this.name = 'Import Prototype Materials';
 
-          this.icon = ['import', `${BASE_URL}/assets/button.png`];
+          this.icon = [`${BASE_URL}/assets/button.png`, "#ff8c00"];
      }
 
      override async onDoubleClick() {
@@ -108,13 +108,20 @@ function createStoreFolder(name: string, id: string, priority: number, open: boo
      return folder;
 }
 
-function createMaterial(name: string, url: string) {
+async function createMaterial(name: string, url: string) {
 
-     const texture = loader.load(url)
+     const store = api.getStore();
+
+     const texture = await loader.loadAsync(url)
 
      const material = new MeshStandardMaterial({ map: texture });
 
      material.name = name = texture.name = name;
+
+     folder.add(material);
+
+     store.add(texture);
+     store.add(material);
 
      return material;
 }
@@ -129,13 +136,11 @@ async function create() {
           },
      ], { maxWidth: "50%", confirmText: 'Continue' }).promise;
 
+     const promises = TEXTURES.map(({ name, src }) => createMaterial(name, src));
 
-     for (const { name, src } of TEXTURES) {
+     await Promise.all(promises);
 
-          const material = createMaterial(name, src);
-
-          folder.add(material)
-     }
+     created = true;
 }
 
 
