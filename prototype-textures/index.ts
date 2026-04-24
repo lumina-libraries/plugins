@@ -1,4 +1,4 @@
-import { TextureLoader, MeshStandardMaterial } from 'three';
+import { MaterialLoader, MeshStandardMaterial, TextureLoader } from 'three';
 import type { IPluginAPI } from "@lumina-engine/types";
 import { CustomStoreObject } from "@lumina-engine/store-objects";
 import type { StoreFolderAdapter } from '@lumina-engine/store-folders';
@@ -114,7 +114,9 @@ async function createMaterial(name: string, url: string) {
 
      const texture = await loader.loadAsync(url)
 
-     const material = new MeshStandardMaterial({ map: texture });
+     const material = MaterialLoader.createMaterialFromType("TriplanarMaterial") as MeshStandardMaterial;
+
+     material.map = texture;
 
      material.name = name = texture.name = name;
 
